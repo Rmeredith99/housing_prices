@@ -143,16 +143,16 @@ if __name__ == "__main__":
 	input_nodes = x_train.shape[1]
 
 	# layers: (input: 326), 1000, 500, 200, 100, (output: 1)
-	# dropout of 30% between each layer
+	# dropout of 10% between each layer
 	model = Sequential()
 	model.add(Dense(1000,input_dim=input_nodes,activation="relu"))
-	model.add(Dropout(0.3))
+	model.add(Dropout(0.1))
 	model.add(Dense(500,activation="relu"))
-	model.add(Dropout(0.3))
+	model.add(Dropout(0.1))
 	model.add(Dense(200,activation="relu"))
-	model.add(Dropout(0.3))
+	model.add(Dropout(0.1))
 	model.add(Dense(100,activation="relu"))
-	model.add(Dropout(0.3))
+	model.add(Dropout(0.1))
 	model.add(Dense(1,activation="tanh"))
 	
 	model.compile(loss='mean_squared_error', optimizer='adam', metrics=[rmse])
