@@ -2,7 +2,9 @@ import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras import backend
+import pickle
 import os
+#import clusterone
 
 def to_float_list(l):
 	"""
@@ -160,9 +162,12 @@ if __name__ == "__main__":
 	# model.load_weights("test3.h5")
 	
 	# running the model
-	model.fit(x_train,y_train,epochs=50,batch_size=25,validation_data=(x_val,y_val))
-	model.save_weights("test4.h5")
-	
+	history = model.fit(x_train,y_train,epochs=30,batch_size=25,validation_data=(x_val,y_val))
+	model.save_weights("test5.h5")
+
+	with open('logs/run_a', 'wb') as file_pi:
+		pickle.dump(history.history, file_pi)
+
 	# evaluating test data
 	score = model.evaluate(x_test,y_test)
 	print('Test loss:', score[0])
