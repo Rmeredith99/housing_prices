@@ -6,3 +6,4 @@ scipy==0.19.0
 clusterone==0.10.6
 keras==2.1.6
 tensorflow==1.0.0
+pickle==2.0
