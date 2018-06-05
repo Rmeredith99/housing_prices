@@ -2,9 +2,11 @@ import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras import backend
-import pickle
+from keras.callbacks import TensorBoard
+from time import time
+# import pickle
 import os
-#import clusterone
+from clusterone import get_logs_path
 
 def to_float_list(l):
 	"""
@@ -134,6 +136,8 @@ if __name__ == "__main__":
 	# turn of warnings
 	os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
 
+	log_path = get_logs_path(r"C:\Users\Ryan Meredith\Documents\github\housing_prices\logs\\")
+
 	# root mean squared metric
 	def rmse(y_true, y_pred):
 		return backend.sqrt(backend.mean(backend.square(y_pred - y_true), axis=-1))
@@ -160,13 +164,14 @@ if __name__ == "__main__":
 	model.compile(loss='mean_squared_error', optimizer='adam', metrics=[rmse])
 	
 	# model.load_weights("test3.h5")
+	tensorboard = TensorBoard(log_dir=log_path.format(time()))
 	
 	# running the model
-	history = model.fit(x_train,y_train,epochs=30,batch_size=25,validation_data=(x_val,y_val))
+	history = model.fit(x_train,y_train,epochs=30,batch_size=25,validation_data=(x_val,y_val), callbacks=[tensorboard])
 	model.save_weights("test5.h5")
 
-	with open('logs/run_a', 'wb') as file_pi:
-		pickle.dump(history.history, file_pi)
+	# with open('logs/run_a', 'wb') as file_pi:
+	# 	pickle.dump(history.history, file_pi)
 
 	# evaluating test data
 	score = model.evaluate(x_test,y_test)
